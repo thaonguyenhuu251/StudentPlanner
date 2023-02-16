@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">114908648771-0etjek9jtsgd3ni7m363mv46ic0m3tij.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">114908648771</string>
+    <string name="google_api_key" translatable="false">AIzaSyBMXYHtPARakFX-5L3jXJH7-UgtWJ3JV8Y</string>
+    <string name="google_app_id" translatable="false">1:114908648771:android:7c7f75c1454063183e8bf6</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBMXYHtPARakFX-5L3jXJH7-UgtWJ3JV8Y</string>
+    <string name="google_storage_bucket" translatable="false">studentplanner-a0e80.appspot.com</string>
+    <string name="project_id" translatable="false">studentplanner-a0e80</string>
+</resources>

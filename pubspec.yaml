@@ -37,6 +37,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.1.4
+  firebase_core: ^1.8.0
+  cloud_firestore: ^3.1.17
+  firebase_database: ^9.0.20
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +66,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+  fonts:
+    - family: Schedule
+      fonts:
+        - asset: fonts/Schedule.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

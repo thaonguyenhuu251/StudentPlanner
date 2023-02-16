@@ -1,11 +1,14 @@
 import 'dart:ffi';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:studentplanner/constants/color.dart';
+import 'package:studentplanner/screens/screen_home.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  static String id = 'onboarding';
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
@@ -34,6 +37,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentIndex = 0;
 
   PageController _pageViewController = PageController(initialPage: 0);
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late bool _success;
+  late String _userEmail;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _signInWithEmailAndPassword() async {
+    final UserCredential userCredential =
+        (await _auth.signInWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ));
+
+    if (userCredential != null) {
+      setState(() {
+        _success = true;
+        final user = userCredential.user;
+        if (user != null) {
+          _userEmail = user.uid;
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomeScreen()
+              ),
+              ModalRoute.withName("/Home")
+          );
+        }
+      });
+    } else {
+      setState(() {
+        _success = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,11 +124,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(listContent[position],
-                                style: TextStyle(
-                                    fontSize: 15, color: MainColor.darkGray),
-                                textAlign: TextAlign.center)),
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(listContent[position],
+                              style: TextStyle(
+                                  fontSize: 15, color: MainColor.darkGray),
+                              textAlign: TextAlign.center),
+                        ),
                       ],
                     );
                   },
@@ -166,8 +204,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     width: 160,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
                                     child: TextField(
+                                      controller: _emailController,
                                       autofocus: true,
                                       decoration: InputDecoration(
                                           hintText:
@@ -183,8 +223,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
                                     child: TextField(
+                                      controller: _passwordController,
                                       autofocus: true,
                                       decoration: InputDecoration(
                                           hintText: "Input password",
@@ -196,7 +238,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                           prefixIcon: Icon(Icons.password)),
                                       keyboardType: TextInputType.text,
                                     ),
-                                  )
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    child: MaterialButton(
+                                      onPressed: () {
+                                        _signInWithEmailAndPassword();
+                                      },
+                                      child: Text(
+                                        "Login",
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            color: MainColor.darkPrimary),
+                                      ),
+                                      color: Colors.blue,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      minWidth: double.infinity,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
